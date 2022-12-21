@@ -4,6 +4,7 @@ const port = 3000
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.use(express.static('public'))
 
 app.get('/', (req, res) => {
   console.log(req.body)
@@ -11,7 +12,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-  console.log(req.body)
+  console.log(typeof req.body.todo)
   res.sendFile(`${__dirname}/index.html`)
 })
 
