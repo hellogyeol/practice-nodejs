@@ -12,8 +12,14 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-  console.log(typeof req.body.todo)
-  res.sendFile(`${__dirname}/index.html`)
+  console.log(req.body.todo)
+  // res.sendFile(`${__dirname}/index.html`)
+  res.render(`${__dirname}/form.ejs`, {'todo':req.body.todo})
+})
+
+app.get('/test', (req, res) => {
+  console.log(req.body)
+  res.sendFile(`${__dirname}/ejs-test.html`)
 })
 
 app.listen(port, () => {
