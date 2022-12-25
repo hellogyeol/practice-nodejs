@@ -6,9 +6,10 @@ const port = 3000
 // app.use(express.urlencoded({extended: true}))
 // app.use(express.static('public'))
 
+app.set('view engine', 'pug')
+
 app.get('/', (req, res) => {
-  // res.sendFile(`${__dirname}/index.html`)
-  res.send('success')
+  res.render('index')
 })
 
 app.listen(port, () => {
