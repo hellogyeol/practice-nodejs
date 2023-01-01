@@ -10,9 +10,10 @@ async function run() {
     console.log("Connected correctly to server");
 
     const db = client.db(dbName)
-    await db.collection('todo').insertOne({content: 'sleep'})
+    const col = db.collection('todo')
+    // await col.insertOne({content: 'sleep'})
 
-    const list = db.collection('todo').find({})
+    const list = await col.find({}).toArray()
     console.log(list)
   }
   catch (err) {
