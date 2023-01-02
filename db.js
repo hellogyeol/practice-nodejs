@@ -11,7 +11,7 @@ async function run() {
 
     const db = client.db(dbName)
     const col = db.collection('todo')
-    // await col.insertOne({content: 'sleep'})
+    // await col.insertOne({content: 'wow'})
 
     const list = await col.find({}).toArray()
     console.log(list)
@@ -21,6 +21,7 @@ async function run() {
   }
   finally {
     await client.close();
+    console.log('Connection Closed')
   }
 }
 
