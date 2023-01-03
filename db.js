@@ -1,5 +1,4 @@
 const { MongoClient } = require("mongodb");
-                                                                                                                                     
 const url = "mongodb+srv://hellogyeol:hihello@cluster0.pnnqiq8.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(url);
 const dbName = 'test'
@@ -15,6 +14,7 @@ async function run() {
 
     const list = await col.find({}).toArray()
     console.log(list)
+    console.log(content)
   }
   catch (err) {
     console.log(err.stack);
