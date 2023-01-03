@@ -4,5 +4,8 @@ html
     script(src='index.js') 
   body
     div= test
-    form(action="/", method="post") 
-      input(type="text" name="hehe")
+    form(action="/", method="post")
+      input(type="text" name="name")
+    ul
+      each val in test
+        li= val

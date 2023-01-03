@@ -46,15 +46,12 @@ app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
   res.render('index', {
-    test: 'pug test!!'
+    test: 'get req'
   })
 })
 
 app.post('/', (req, res) => {
-  res.render('index', {
-    test: 'pug test!! POST!!!'
-  })
-  content = req.body.hehe
+  content = req.body.name
   console.log(content)
 
   async function run() {
@@ -68,6 +65,10 @@ app.post('/', (req, res) => {
   
       const list = await col.find({}).toArray()
       console.log(list)
+
+      res.render('index', {
+        test: list.map(item => item.content)
+      })
     }
     catch (err) {
       console.log(err.stack);
@@ -77,7 +78,6 @@ app.post('/', (req, res) => {
       console.log('Connection Closed')
     }
   }
-  
   run().catch(console.dir);
 })
 
