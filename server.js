@@ -28,7 +28,6 @@
 //   console.log(`Example app listening on port ${port}`)
 // })
 
-
 let content
 const express = require('express')
 const app = express()
@@ -45,9 +44,34 @@ app.use(express.static('public'))
 app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
-  res.render('index', {
-    test: 'get req'
-  })
+  content = req.body.name
+  console.log(content)
+
+  async function run() {
+    try {
+      await client.connect();
+      console.log("Connected correctly to server");
+  
+      const db = client.db(dbName)
+      const col = db.collection('todo')
+      await col.insertOne({content: content})
+  
+      const list = await col.find({}).toArray()
+      console.log(list)
+
+      res.render('index', {
+        list: list.map(item => item.content)
+      })
+    }
+    catch (err) {
+      console.log(err.stack);
+    }
+    finally {
+      await client.close();
+      console.log('Connection Closed')
+    }
+  }
+  run().catch(console.dir);
 })
 
 app.post('/', (req, res) => {
@@ -67,7 +91,7 @@ app.post('/', (req, res) => {
       console.log(list)
 
       res.render('index', {
-        test: list.map(item => item.content)
+        list: list.map(item => item.content)
       })
     }
     catch (err) {
