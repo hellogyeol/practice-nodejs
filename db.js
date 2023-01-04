@@ -1,28 +1,24 @@
 const { MongoClient } = require("mongodb");
 const url = "mongodb+srv://hellogyeol:hihello@cluster0.pnnqiq8.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(url);
-const dbName = 'test'
 
 async function run() {
-  try {
-    await client.connect();
-    console.log("Connected correctly to server");
+  await client.connect()
+  const page = client.db('book').collection('page')
+  await page.deleteMany({})
 
-    const db = client.db(dbName)
-    const col = db.collection('todo')
-    // await col.insertOne({content: 'wow'})
+  await page.insertMany([
+    {
+      title: 'third'
+    },
+    {
+      title: 'fourth'
+    }
+  ])
+  const cursor = page.find({})
+  await cursor.forEach(console.log)
 
-    const list = await col.find({}).toArray()
-    console.log(list)
-    console.log(content)
-  }
-  catch (err) {
-    console.log(err.stack);
-  }
-  finally {
-    await client.close();
-    console.log('Connection Closed')
-  }
+  await client.close()
 }
 
-run().catch(console.dir);
+run()
