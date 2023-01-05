@@ -9,15 +9,26 @@ async function run() {
 
   await page.insertMany([
     {
-      title: 'third'
+      name: 'a',
+      contact: {
+        home: '123'
+      }
     },
     {
-      title: 'fourth'
+      name: 'b',
+      contact: {
+        home: '123'
+      }
     }
   ])
-  const cursor = page.find({})
-  await cursor.forEach(console.log)
+  
 
+  const cursor = page.find({
+    'contact.home': '123'
+  })
+
+
+  await cursor.forEach(console.log)
   await client.close()
 }
 
