@@ -5,6 +5,12 @@ html(lang="ko")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title Document
+    script(src="index.js")
   body
-    form(action="")
+    form.form
       input(type="text")
+    span.span
+    script.
+      console.log('test??')
+      const span = document.querySelector('.span')
+      span.innerText = 'wwwww'
