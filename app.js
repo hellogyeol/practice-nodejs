@@ -17,11 +17,14 @@ app.get('/', (req, res) => {
     const list = client.db('todoApp').collection('list');
   
     const cursor = list.find({});
-  
-    await cursor.forEach(console.log);
+    const getList = await cursor.toArray();
+    console.log(getList)
+    
     await client.close();
 
-    res.render('index');
+    res.render('index', {
+      test: getList.map(item => item.content)
+    });
   }
   getTest();
 });
