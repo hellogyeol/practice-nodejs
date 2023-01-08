@@ -14,21 +14,72 @@ app.set('view engine', 'pug');
 app.get('/', (req, res) => {
   async function getTest() {
     await client.connect();
-    const list = client.db('todoApp').collection('list');
-  
-    const cursor = list.find({});
-    const getList = await cursor.toArray();
-    console.log(getList)
-    
+    const col = client.db('db').collection('col');
+
+    const todoList = await col.find({}).toArray();
+    console.log(todoList);
     await client.close();
 
     res.render('index', {
-      test: getList.map(item => item.content)
+      todoList: todoList
     });
   }
   getTest();
 });
 
+app.post('/', (req, res) => {
+  const content = req.body.content;
+  
+  async function postTest() {
+    await client.connect();
+    const col = client.db('db').collection('col');
+
+    await col.insertOne({
+      content: content
+    });
+    const todoList = await col.find({}).toArray();
+    console.log(todoList);
+    await client.close();
+
+    res.render('index', {
+      todoList: todoList
+    });
+  }
+  postTest();
+});
+
+app.get('/del', (req, res) => {
+  async function getTest() {
+    await client.connect();
+    const col = client.db('db').collection('col');
+
+    const todoList = await col.find({}).toArray();
+    console.log(todoList);
+    await client.close();
+
+    res.render('index', {
+      todoList: todoList
+    });
+  }
+  getTest();
+})
+
+app.post('/del', (req, res) => {
+  async function deleteTest() {
+    await client.connect();
+    const col = client.db('db').collection('col');
+
+    await col.deleteMany({});
+    const todoList = await col.find({}).toArray();
+    console.log(todoList);
+    await client.close();
+
+    res.render('index', {
+      todoList: todoList
+    });
+  }
+  deleteTest();
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

@@ -8,4 +8,9 @@ html(lang="ko")
   body
     form(action="/", method="post")
       input(type="text" name="content")
-    div= test
+    form(action="/del", method="post")
+      input(type="hidden", name="_method" value="delete")
+      button(type="submit") Clear
+    ul
+      each todo in todoList
+        li= todo.content
