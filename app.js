@@ -48,38 +48,13 @@ app.post('/', (req, res) => {
   postTest();
 });
 
-app.get('/del', (req, res) => {
-  async function getTest() {
-    await client.connect();
-    const col = client.db('db').collection('col');
-
-    const todoList = await col.find({}).toArray();
-    console.log(todoList);
-    await client.close();
-
-    res.render('index', {
-      todoList: todoList
-    });
-  }
-  getTest();
+app.get('/test', (req, res) => {
+  res.sendFile(`${__dirname}/test.html`)
 })
 
-app.post('/del', (req, res) => {
-  async function deleteTest() {
-    await client.connect();
-    const col = client.db('db').collection('col');
-
-    await col.deleteMany({});
-    const todoList = await col.find({}).toArray();
-    console.log(todoList);
-    await client.close();
-
-    res.render('index', {
-      todoList: todoList
-    });
-  }
-  deleteTest();
-});
+app.get('/test2', (req, res) => {
+  res.send('wow')
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
