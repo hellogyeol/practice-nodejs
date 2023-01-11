@@ -9,13 +9,21 @@
 <body>
   <h1 class="h1">TEST</h1>
   <button class="btn">submit</button>
+  <ul class="ul"></ul>
 
   <script>
+    const ul = document.querySelector('.ul')
     const btn = document.querySelector('.btn')
     btn.addEventListener('click', async () => {
-      const str = await fetch('/test2')
-      const aa = await str.text()
-      console.log(aa)
+      const res = await fetch('/test/test')
+      const list = await res.json()
+      console.log(list)
+
+      list.forEach(item => {
+        const li = document.createElement('li')
+        li.innerText = item.fruit
+        ul.append(li)
+      })
     })
   </script>
 </body>

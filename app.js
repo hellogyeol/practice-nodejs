@@ -29,17 +29,11 @@ app.get('/', (req, res) => {
 });
 
 
-
-
-
-
-
-
 app.get('/test', (req, res) => {
   res.sendFile(`${__dirname}/test.html`)
 });
 
-app.post('/test', (req, res) => {
+app.get('/test/test', (req, res) => {
   async function getTest() {
     await client.connect();
     const col = client.db('db').collection('col');
@@ -47,23 +41,12 @@ app.post('/test', (req, res) => {
     const todoList = await col.find({}).toArray();
     console.log(todoList);
     await client.close();
+
+    res.send(todoList)
   }
-  getTest();
-  res.sendFile(`${__dirname}/test.html`)
+  getTest()
+  // res.sendFile(`${__dirname}/test.html`)
 });
-
-
-app.get('/test2', (req, res) => {
-  res.send('asdfasdf')
-});
-
-
-
-
-
-
-
-
 
 
 
