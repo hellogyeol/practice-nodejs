@@ -5,14 +5,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  
 </head>
 <body>
-  <h1 class="h1">test</h1>
-  <form action="/test" method="get">
-    <button type="submit" class="btn"></button>
-  </form>
+  <h1 class="h1">TEST</h1>
+  <button class="btn">submit</button>
 
-  <script type="module" src="index.js"></script>
+  <script>
+    const btn = document.querySelector('.btn')
+    btn.addEventListener('click', async () => {
+      const str = await fetch('/test2')
+      const aa = await str.text()
+      console.log(aa)
+    })
+  </script>
 </body>
 </html>

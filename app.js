@@ -1,13 +1,10 @@
-import path from 'path';
-const __dirname = path.resolve();
-// const express = require('express');
-import express from 'express'
+require('dotenv').config();
+const express = require('express');
 const app = express();
 const port = 3000;
 
-// const { MongoClient } = require("mongodb");
-import { MongoClient } from 'mongodb';
-const url = "mongodb+srv://hellogyeol:hihello@cluster0.pnnqiq8.mongodb.net/?retryWrites=true&w=majority";
+const { MongoClient } = require("mongodb");
+const url = process.env.URL;
 const client = new MongoClient(url);
 
 app.use(express.json());
@@ -34,10 +31,37 @@ app.get('/', (req, res) => {
 
 
 
+
+
+
+
 app.get('/test', (req, res) => {
-  // res.sendFile('/Users/HANGYEOL/Documents/dev/practice/practice-nodejs/test.html')
   res.sendFile(`${__dirname}/test.html`)
-})
+});
+
+app.post('/test', (req, res) => {
+  async function getTest() {
+    await client.connect();
+    const col = client.db('db').collection('col');
+
+    const todoList = await col.find({}).toArray();
+    console.log(todoList);
+    await client.close();
+  }
+  getTest();
+  res.sendFile(`${__dirname}/test.html`)
+});
+
+
+app.get('/test2', (req, res) => {
+  res.send('asdfasdf')
+});
+
+
+
+
+
+
 
 
 
