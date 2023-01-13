@@ -14,6 +14,7 @@ app.set('view engine', 'pug');
 
 ////////////////////////////////////////////////////////////////
 app.get('/', (req, res) => {
+  getTest();
   async function getTest() {
     await client.connect();
     const col = client.db('db').collection('col');
@@ -27,7 +28,6 @@ app.get('/', (req, res) => {
       fruits: fruits
     });
   }
-  getTest();
 });
 
 app.post('/', (req, res) => {
@@ -53,10 +53,7 @@ app.post('/', (req, res) => {
 
 /////////////////////////////////////////////////////////////////
 app.get('/csr', (req, res) => {
-  res.sendFile(`${__dirname}/index.html`)
-});
-
-app.get('/csr/get', (req, res) => {
+  getTest();
   async function getTest() {
     await client.connect();
     const col = client.db('db').collection('col');
@@ -65,11 +62,31 @@ app.get('/csr/get', (req, res) => {
     console.log(fruits);
   
     await client.close();
-    res.send(fruits);
+  
+    res.render('csr');
   }
-  getTest();
 });
 
+app.post('/csr', (req, res) => {
+  postTest();
+  async function postTest() {
+    const content = req.body.content;
+
+    await client.connect();
+    const col = client.db('db').collection('col');
+  
+    await col.insertOne({fruit: content});
+    const fruits = await col.find({}).toArray();
+    console.log(fruits);
+  
+    await client.close();
+
+    res.send(fruits);
+  }
+});
+
+
+//////////////////////////////////////////////////////////////////
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
