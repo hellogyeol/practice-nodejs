@@ -12,6 +12,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.set('view engine', 'pug');
 
+////////////////////////////////////////////////////////////////
 app.get('/', (req, res) => {
   async function getTest() {
     await client.connect();
@@ -29,6 +30,28 @@ app.get('/', (req, res) => {
   getTest();
 });
 
+app.post('/', (req, res) => {
+  postTest();
+  async function postTest() {
+    const content = req.body.content;
+
+    await client.connect();
+    const col = client.db('db').collection('col');
+  
+    await col.insertOne({fruit: content});
+    const fruits = await col.find({}).toArray();
+    console.log(fruits);
+  
+    await client.close();
+
+    res.render('index', {
+      fruits: fruits
+    });
+  }
+});
+
+
+/////////////////////////////////////////////////////////////////
 app.get('/csr', (req, res) => {
   res.sendFile(`${__dirname}/index.html`)
 });
