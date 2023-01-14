@@ -30,29 +30,29 @@ app.get('/', (req, res) => {
   }
 });
 
-app.post('/', (req, res) => {
-  postTest();
-  async function postTest() {
-    const content = req.body.content;
+// app.post('/', (req, res) => {
+//   postTest();
+//   async function postTest() {
+//     const content = req.body.content;
 
-    await client.connect();
-    const col = client.db('db').collection('col');
+//     await client.connect();
+//     const col = client.db('db').collection('col');
   
-    await col.insertOne({fruit: content});
-    const fruits = await col.find({}).toArray();
-    console.log(fruits);
+//     await col.insertOne({fruit: content});
+//     const fruits = await col.find({}).toArray();
+//     console.log(fruits);
   
-    await client.close();
+//     await client.close();
 
-    res.render('index', {
-      fruits: fruits
-    });
-  }
-});
+//     res.render('index', {
+//       fruits: fruits
+//     });
+//   }
+// });
 
 
 /////////////////////////////////////////////////////////////////
-app.get('/csr', (req, res) => {
+app.get('/csr', (req, res, next) => {
   getTest();
   async function getTest() {
     await client.connect();
@@ -62,28 +62,31 @@ app.get('/csr', (req, res) => {
     console.log(fruits);
   
     await client.close();
-  
-    res.render('csr');
-  }
-});
-
-app.post('/csr', (req, res) => {
-  postTest();
-  async function postTest() {
-    const content = req.body.content;
-
-    await client.connect();
-    const col = client.db('db').collection('col');
-  
-    await col.insertOne({fruit: content});
-    const fruits = await col.find({}).toArray();
-    console.log(fruits);
-  
-    await client.close();
 
     res.send(fruits);
+    next();
   }
+}, (req, res) => {
+  res.sendFile(`${__dirname}/index.html`);
 });
+
+// app.post('/csr', (req, res) => {
+//   postTest();
+//   async function postTest() {
+//     const content = req.body.content;
+
+//     await client.connect();
+//     const col = client.db('db').collection('col');
+  
+//     await col.insertOne({fruit: content});
+//     const fruits = await col.find({}).toArray();
+//     console.log(fruits);
+  
+//     await client.close();
+
+//     res.send(fruits);
+//   }
+// });
 
 
 //////////////////////////////////////////////////////////////////
